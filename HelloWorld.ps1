@@ -8,6 +8,6 @@ New-AzVm -ResourceGroupName $resourceGroupName `
 	-Location $location `
 	-Name $vmName `
 	-Credential (New-Object System.Management.Automation.PSCredential - ArgumentList $adminUsername, $adminPassword) `
-	-Image "Ubuntu2022"
+	-Image "Ubuntu2022" `
 	-PublicIpAddressName "$vmName-publicIP"
 
