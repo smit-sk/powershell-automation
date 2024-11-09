@@ -1,37 +1,32 @@
-name: CI Pipeline for PowerShell Script
+name: Azure PowerShell Workflow
 
 on:
   push:
-    branches:
-      - main  # Trigger on push to the 'main' branch (you can change this to your default branch)
-  pull_request:
-    branches:
-      - main  # Trigger on pull request to the 'main' branch
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  validate-and-test:
-    runs-on: ubuntu-latest  # Use an Ubuntu runner (change if using Windows)
-
+  run-powershell:
+    runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
-
-      - name: Install PowerShell Modules (if needed)
-        run: |
-          Install-Module -Name Pester -Force -Scope CurrentUser # Pester is a testing framework for PowerShell
-
-      - name: Validate PowerShell Script
-        run: |
-          # Run any script validation commands (e.g., syntax check, style check)
-          pwsh -Command "Get-Command ./HelloWorld.ps1"  # Replace with the script to validate
-
-      - name: Run PowerShell Tests (optional)
-        run: |
-          # Run unit tests using Pester (if you have them)
-          pwsh -Command "Invoke-Pester ./tests"
-
-      - name: Display Output
-        run: echo "CI pipeline completed successfully!"
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Install PowerShell modules
+      shell: pwsh
+      run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module -Name Az -Force
+        
+    - name: Run PowerShell script
+      shell: pwsh
+      run: |
+        # Connect to Azure (already handled by azure/login action)
+        # Run your PowerShell script
+        ./HelloWorld.ps1
