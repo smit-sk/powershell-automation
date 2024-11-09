@@ -33,15 +33,11 @@ $storageAccount = New-AzStorageAccount `
 $container = $storageAccount.Context 
 New-AzStorageContainer -Name $containerName -Context $container 
 
-$subnet = New-AzVirtualNetworkSubnetConfig -Name "default" -AddressPrefix "20.0.1.0/24"
-
-$vnet = New-AzVirtualNetwork -ResourceGroupName $resourceGroupName -Location $location -Name "$vmName-Vnet" -AddressPrefix "20.0.0.0/16" -Subnet $subnet
-
 New-AzVm -ResourceGroupName $resourceGroupName `
     -Location $location `
     -Name $vmName `
     -Credential (New-Object System.Management.Automation.PSCredential -ArgumentList $adminUsername, $adminPassword) `
     -Image "Ubuntu2204" `
     -PublicIpAddressName "$vmName-publicIP"
-    -Vnet $vnet 
+    -VirtualNetworkName "$vmName-Vnet" ` 
 
