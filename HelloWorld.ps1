@@ -31,7 +31,7 @@ $storageAccount = New-AzStorageAccount `
     -Kind StorageV2
 
 $container = $storageAccount.Context 
-New-AzStorageContainer -Name $containerName -Context $container -Permission Blob
+New-AzStorageContainer -Name $containerName -Context $container 
 
 $subnet = New-AzVirtualNetworkSubnetConfig -Name "default" -AddressPrefix "20.0.1.0/24"
 
