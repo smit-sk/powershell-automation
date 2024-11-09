@@ -6,19 +6,21 @@ $securePassword = ConvertTo-SecureString $creds.clientSecret -AsPlainText -Force
 $psCredential = New-Object System.Management.Automation.PSCredential ($creds.clientId, $securePassword)
 Connect-AzAccount -ServicePrincipal -Credential $psCredential -Tenant $creds.tenantId
 
-# Create a Resource group if it doesn't exist 
-New-AzResourceGroup -Name $resourceGroupName -Location $location -Force
-
 # Set the subscription context to avoid the "No subscription found" error
 Set-AzContext -SubscriptionId $creds.subscriptionId
 
+
 # Your VM creation script
-$resourceGroupName = "Project-07-RG"
+$resourceGroupName = "Project-07-RG-01"
 $location = "canadacentral"
 $vmName = "Powershell-VM"
 $adminUsername = "azureuser"
+$containerName = "my-first-blob-container"
 $adminPassword = ConvertTo-SecureString "Smit@7008" -AsPlainText -Force
 $storageAccountName = "storage${vmName}".ToLower() -replace '-', '' 
+
+# Create a Resource Group
+New-AzResourceGroup -Name $resourceGroupName -Location $location -Force
 
 # Create Storage Account
 $storageAccount = New-AzStorageAccount `
