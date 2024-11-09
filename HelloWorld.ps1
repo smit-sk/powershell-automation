@@ -38,6 +38,9 @@ New-AzVm -ResourceGroupName $resourceGroupName `
     -Name $vmName `
     -Credential (New-Object System.Management.Automation.PSCredential -ArgumentList $adminUsername, $adminPassword) `
     -Image "Ubuntu2204" `
-    -PublicIpAddressName "$vmName-publicIP"
-    -VirtualNetworkName "$vmName-Vnet" ` 
+    -VirtualNetworkName 'myVnet' `
+    -SubnetName 'mySubnet' `
+    -SecurityGroupName 'myNetworkSecurityGroup' `
+    -PublicIpAddressName 'myPublicIpAddress' `
+    -OpenPorts 80,3389
 
