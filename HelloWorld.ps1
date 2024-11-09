@@ -17,7 +17,7 @@ $vmName = "Powershell-VM"
 $adminUsername = "azureuser"
 $containerName = "my-first-blob-container"
 $adminPassword = ConvertTo-SecureString "Smit@7008" -AsPlainText -Force
-$storageAccountName = "storage${vmName}".ToLower() -replace '-', '' 
+$storageAccountName = "sstorage${vmName}".ToLower() -replace '-', '' 
 
 # Create a Resource Group
 New-AzResourceGroup -Name $resourceGroupName -Location $location -Force
