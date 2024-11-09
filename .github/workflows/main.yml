@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up PowerShell
-        uses: PowerShell/PowerShell@v7.2.0 # Set up PowerShell on the runner
+        uses: PowerShell/PowerShell@v2 # Set up PowerShell on the runner
 
       - name: Install PowerShell Modules (if needed)
         run: |
