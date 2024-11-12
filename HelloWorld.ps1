@@ -1,6 +1,3 @@
-# Set the subscription context to avoid the "No subscription found" error
-Set-AzContext -SubscriptionId $creds.subscriptionId
-
 
 # Your VM creation script
 $resourceGroupName = "Project-07-RG-01"
