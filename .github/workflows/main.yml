@@ -21,12 +21,12 @@ jobs:
     - name: Install PowerShell modules
       shell: pwsh
       run: |
-        Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
-        Import-Module Az 
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module -Name Az -Force
         
     - name: Run PowerShell script
       shell: pwsh
-      env: 
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      env:
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}  # Pass the credentials as an environment variable
       run: |
         ./script.ps1
