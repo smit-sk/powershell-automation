@@ -27,8 +27,7 @@ jobs:
     - name: Connect and Set Subscription Context
       shell: pwsh
       run: |
-        # Log in and set the subscription context
-        Connect-AzAccount
+        #set the subscription context
         Set-AzContext -SubscriptionId "e618a55d-e5af-4210-96d7-212947f8a0af"                                                  
         
     - name: Run PowerShell script
