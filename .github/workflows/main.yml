@@ -24,13 +24,9 @@ jobs:
         Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
         Import-Module Az 
         
-    - name: Connect and Set Subscription Context
-      shell: pwsh
-      run: |
-        #set the subscription context
-        Set-AzContext -SubscriptionId "e618a55d-e5af-4210-96d7-212947f8a0af"                                                  
-        
     - name: Run PowerShell script
       shell: pwsh
+      env: 
+        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: |
         ./script.ps1
