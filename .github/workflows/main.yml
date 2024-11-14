@@ -24,11 +24,12 @@ jobs:
         Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
         Import-Module Az 
         
-    - name: authenticate with Connect-AzAccount
+    - name: Connect and Set Subscription Context
       shell: pwsh
       run: |
-        # Re-authenticate for PowerShell session
-        Connect-AzAccount Subscription e618a55d-e5af-4210-96d7-212947f8a0af                                                  
+        # Log in and set the subscription context
+        Connect-AzAccount
+        Set-AzContext -SubscriptionId "e618a55d-e5af-4210-96d7-212947f8a0af"                                                  
         
     - name: Run PowerShell script
       shell: pwsh
