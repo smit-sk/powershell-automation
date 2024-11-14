@@ -3,7 +3,7 @@ $resourceGroup = "Project-07-RG-01"         # Name of the resource group
 $location = "canadacentral"                 # Azure region
 $vmName = "MyVM01"                          # Virtual Machine name
 $vmSize = "Standard_B1s"                    # VM size
-$vnetName = "P7-vnet"                       # Virtual Network name
+$vnetName = "P7-01-vnet"                       # Virtual Network name
 $subnetName = "default"                     # Subnet name
 $adminUsername = "azureuser"                # Admin username for VM login
 $adminPassword = ConvertTo-SecureString "qwer1234QWER" -AsPlainText -Force  # Admin password (make sure to handle this securely)
@@ -27,6 +27,9 @@ Log-Message "Retrieving Virtual Network and Subnet."
 $vnet = New-AzVirtualNetwork -ResourceGroupName $resourceGroup -Location $location -Name $vnetName -AddressPrefix "10.0.0.0/16"
 $subnet = Add-AzVirtualNetworkSubnetConfig -Name $subnetName -VirtualNetwork $vnet -AddressPrefix "10.0.2.0/24"
 $vnet | Set-AzVirtualNetwork
+
+$vnet = Get-AzVirtualNetwork -ResourceGroupName $resourceGroup -Name $vnetName
+$subnetId = $vnet.Subnets[0].Id 
 
 # Create Public IP Address
 Log-Message "Creating a Static Public IP Address."
@@ -58,8 +61,16 @@ $nsg | Set-AzNetworkSecurityGroup
 Log-Message "Creating Network Interface and associating with NSG and Public IP."
 
 
-$nic = New-AzNetworkInterface -Name "MyNic" -ResourceGroupName $resourceGroup -Location $location `
-    -SubnetID $subnet.Id -PublicIpAddressId $pip.Id -NetworkSecurityGroupId $nsg.Id
+Write-Output "Subnet ID: $subnetId"
+
+if (-not [string]::IsNullOrEmpty($subnetId)) {
+
+    $nic = New-AzNetworkInterface -Name "MyNic" -ResourceGroupName $resourceGroup -Location $location `
+    -SubnetId $subnetId -PublicIpAddressId $pip.Id -NetworkSecurityGroupId $nsg.Id
+
+}else {
+    Write-Output "Failed to retrive subnet Id"
+}
 
 # Configure the VM with OS, image, and NIC
 Log-Message "Configuring the VM."
