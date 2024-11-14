@@ -21,12 +21,10 @@ jobs:
     - name: Install PowerShell modules
       shell: pwsh
       run: |
-        Set-PSRepository PSGallery -InstallationPolicy Trusted
-        Install-Module -Name Az -Force
+        Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+        Import-Module Az                                                       
         
     - name: Run PowerShell script
       shell: pwsh
-      env: 
-        AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       run: |
         ./script.ps1
